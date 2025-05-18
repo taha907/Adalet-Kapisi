@@ -1,0 +1,261 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px 0;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.logo {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #34495e;
+    margin-bottom: 30px;
+}
+
+    .logo h2 {
+        font-size: 22px;
+        font-weight: 600;
+    }
+
+.nav-menu {
+    list-style: none;
+}
+
+    .nav-menu li {
+        margin-bottom: 5px;
+    }
+
+    .nav-menu a {
+        display: block;
+        color: #ecf0f1;
+        text-decoration: none;
+        padding: 12px 20px;
+        transition: all 0.3s;
+        font-size: 16px;
+    }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            background-color: #34495e;
+            border-left: 4px solid #3498db;
+        }
+
+    .nav-menu i {
+        margin-right: 10px;
+        width: 20px;
+        text-align: center;
+    }
+
+.main-content {
+    flex: 1;
+    padding: 30px;
+    position: relative;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.page-title h1 {
+    font-size: 24px;
+    color: #2c3e50;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+    .user-info img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+
+.hearings-table {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+}
+
+.section-title {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+th {
+    background-color: #f8f9fa;
+    color: #7f8c8d;
+    font-weight: 500;
+}
+
+tr {
+    cursor: pointer;
+}
+
+    tr:hover {
+        background-color: #f8f9fa;
+    }
+
+.status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-active {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-closed {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        height: auto;
+    }
+}
+/* Duruşma Detayları Stilleri */
+#hearing-details {
+    background-color: white;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 30px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+    #hearing-details h3 {
+        font-size: 20px;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    #hearing-details p {
+        margin-bottom: 15px;
+        font-size: 16px;
+        line-height: 1.6;
+        display: flex;
+        align-items: center;
+    }
+
+    #hearing-details strong {
+        color: #2c3e50;
+        min-width: 100px;
+        display: inline-block;
+        font-weight: 500;
+    }
+
+    #hearing-details span:not(.status) {
+        color: #555;
+        flex: 1;
+    }
+
+    /* Durum göstergesi için düzenleme */
+    #hearing-details .status {
+        display: inline-flex;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 500;
+        width: auto;
+        justify-content: center;
+        align-items: center;
+        margin-left: 0;
+        height: 24px;
+    }
+
+/* Animasyon */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #hearing-details {
+        padding: 20px;
+    }
+
+        #hearing-details p {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        #hearing-details strong {
+            margin-bottom: 5px;
+            min-width: auto;
+        }
+
+        #hearing-details .status {
+            margin-top: 5px;
+        }
+}
+.role-avukat {
+    background-color: #e6f7ff; /* açık mavi */
+}
+
+.role-muvekkil {
+    background-color: #fff7e6; /* açık turuncu */
+}
+
+

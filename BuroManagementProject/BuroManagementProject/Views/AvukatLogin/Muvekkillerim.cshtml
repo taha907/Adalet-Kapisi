@@ -1,0 +1,35 @@
+﻿@model MuvekkilViewModel
+
+@{
+    ViewBag.Title = "Müvekkillerim";
+    ViewBag.ActiveAvukatlarim = "active";    
+    Layout = "_Layout2";
+}
+
+
+<div id="clients-content">
+    <div class="clients-page">
+        <h2 class="section-title">Müvekkil Listesi</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Müvekkil</th>
+                    <th>Telefon</th>
+                    <th>E-posta</th>
+                    <th>Aktif Dava</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var muvekkil in Model.Muvekkiller)
+                {
+                    <tr>
+                        <td>@muvekkil.AdSoyad</td>
+                        <td>@muvekkil.Telefon</td>
+                        <td>@muvekkil.Eposta</td>
+                        <td>@muvekkil.AktifDavaSayisi</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

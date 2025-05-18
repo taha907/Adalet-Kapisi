@@ -1,0 +1,59 @@
+﻿@model BuroManagementProject.Models.DavalarViewModel
+
+@{
+    Layout = "_Layout2";
+}
+
+<main class="main-content">
+    <div class="cases-container">
+        <div class="section-header">
+            <h2 class="section-title">Dava Listesi</h2>
+            <a href="/AvukatLogin/DavaEkle" class="btn">Dava Ekle</a>
+
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Dava No</th>
+                    <th>Konu</th>
+                    <th>Müvekkil</th>
+                    <th>Başlangıç Tarihi</th>
+                    <th>Durum</th>
+                    <th>İşlem</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var dava in Model.Davalar)
+                {
+                    
+                    <tr onclick="location.href='@Url.Action("DavaDetayGoster", "AvukatLogin", new { id = dava.DavaID })'" style="cursor:pointer;">
+                        <td>#@dava.DavaID</td>
+                        <td>@dava.Dava_Konusu</td>
+                        <td>@dava.MuvekkilAdSoyad</td>
+                        <td>@dava.Acilis_Tarihi</td>
+
+                        <td>
+                            @if (dava.DavaDurumu == "Aktif")
+                            {
+                                <span class="status status-active">Aktif</span>
+                            }
+                            else if (dava.DavaDurumu == "Beklemede")
+                            {
+                                <span class="status status-pending">Beklemede</span>
+                            }
+                            else if (dava.DavaDurumu == "Sonuçlandı")
+                            {
+                                <span class="status status-closed">Sonuçlandı</span>
+                            }
+                            else
+                            {
+                                <span class="status status-unknown">Bilinmiyor</span>
+                            }
+                        </td>
+                        <td><button class="action-btn">Güncelle</button></td>
+                    </tr>
+                    }
+                </tbody>
+        </table>
+    </div>
+</main>

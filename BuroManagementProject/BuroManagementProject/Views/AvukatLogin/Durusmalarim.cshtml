@@ -1,0 +1,78 @@
+﻿@model BuroManagementProject.Models.DurusmalarViewModel
+@{
+    ViewBag.Title = "Duruşmalarım";
+    ViewBag.a = "AvukatLogin";
+    ViewBag.activeDurusmalarim = "active";
+    Layout = "_Layout2";
+}
+<div class="container">
+    <main class="main-content">
+        <div id="hearings-content">
+            <div class="hearings-table">
+                <h2 class="section-title">Tüm Duruşmalar</h2>
+
+                <!-- Açıklama (Legend) -->
+                <div class="icon-legend" style="margin-bottom: 15px;">
+                    <span style="margin-right: 15px;">
+                        <i class="fas fa-user-tie" style="color:#007bff;"></i> Avukat olduğum duruşmalar
+                    </span>
+                    <span>
+                        <i class="fas fa-user" style="color:#28a745;"></i> Müvekkil olduğum duruşmalar
+                    </span>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th> <!-- Rol ikonları için sütun -->
+                            <th>Dava No</th>
+                            <th>Konu</th>
+                            <th>Tarih</th>
+                            <th>Saat</th>
+                            <th>Mahkeme</th>
+                            <th>Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var durusma in Model.Durusmalar)
+                        {
+                            string rolClass = durusma.Rol_ID == 1 ? "role-avukat" :
+                                              durusma.Rol_ID == 2 ? "role-muvekkil" : "";
+
+                            string rolIcon = durusma.Rol_ID == 1
+                                ? "<i class='fas fa-user-tie' style='color:#007bff;' title='Avukat'></i>"
+                                : "<i class='fas fa-user' style='color:#28a745;' title='Müvekkil'></i>";
+
+                            <tr class="@rolClass">
+                                <td>@Html.Raw(rolIcon)</td>
+                                <td>#@durusma.DavaID</td>
+                                <td>@durusma.DavaKonusu</td>
+                                <td>@durusma.Tarih</td>
+                                <td>@durusma.Saat</td>
+                                <td>@durusma.MahkemeAdi</td>
+                                <td>
+                                    @if (durusma.DurusmaDurumu == "Planlandı")
+                                    {
+                                        <span class="status status-pending">Planlandı</span>
+                                    }
+                                    else if (durusma.DurusmaDurumu == "Gerçekleşti")
+                                    {
+                                        <span class="status status-active">Gerçekleşti</span>
+                                    }
+                                    else if (durusma.DurusmaDurumu == "Ertelendi")
+                                    {
+                                        <span class="status status-closed">Ertelendi</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status">@durusma.DurusmaDurumu</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>

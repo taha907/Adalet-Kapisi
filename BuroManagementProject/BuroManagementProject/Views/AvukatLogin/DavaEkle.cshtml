@@ -1,0 +1,89 @@
+﻿@model BuroManagementProject.Models.DavaEkleViewModel
+
+@{
+    
+        Layout = "_Layout2";
+    
+    ViewBag.Title = "Dava Ekle";
+}
+
+<div class="add-case-form">
+    <h2 class="section-title">Yeni Dava Ekle</h2>
+
+    <form asp-action="DavaEkle" method="post">
+        <div class="form-row">
+            <div class="form-group">
+                <label asp-for="Dava.Dava_Konusu">Dava Konusu</label>
+                <input asp-for="Dava.Dava_Konusu" class="form-control" placeholder="Davanın konusunu giriniz" />
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label asp-for="Dava.DavaTaraf_ID">Taraf Seçimi</label>
+                <select asp-for="Dava.DavaTaraf_ID" class="form-control">
+                    <option value="1">Davacı</option>
+                    <option value="2">Davalı</option>
+                    <option value="3">Tek Taraf</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="SecilenMuvekkilIdListesi">Müvekkil Seçimi</label>
+            <select asp-for="SecilenMuvekkilIdListesi" asp-items="Model.Muvekkiller" class="form-control" multiple size="5">
+                <option disabled>-- Müvekkil Seçiniz --</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label asp-for="Dava.DavaAsama_ID">Dava Aşaması</label>
+                <select asp-for="Dava.DavaAsama_ID" class="form-control">
+                    <option value="1">1. Dava Açma</option>
+                    <option value="2">2. Cevap Dilekçesi</option>
+                    <option value="3">3. Duruşma</option>
+                    <option value="4">4. Deliller</option>
+                    <option value="5">5. Kesinleşme</option>
+                    <option value="6">6. Karar</option>
+                    <option value="7">7. Temyiz</option>
+                    <option value="8">8. İnfaz</option>
+                    <option value="9">9. Sonuç</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Dava.Mahkeme_ID">Mahkeme</label>
+                <select asp-for="Dava.Mahkeme_ID" asp-items="Model.Mahkemeler" class="form-control">
+                    <option value="">-- Mahkeme Seçiniz --</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Dava.Aciklama">Açıklama</label>
+            <textarea asp-for="Dava.Aciklama" class="form-control" placeholder="Dava ile ilgili açıklama giriniz"></textarea>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label asp-for="Dava.ToplamÖdeme">Toplam Ödeme Tutarı (TL)</label>
+                <input asp-for="Dava.ToplamÖdeme" class="form-control" placeholder="TL cinsinden giriniz" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Dava.YapilanÖdeme">Yapılan Ödeme Miktarı (TL)</label>
+                <input asp-for="Dava.YapilanÖdeme" class="form-control" placeholder="Ödenen miktarı giriniz" />
+            </div>
+        </div>
+
+        <div class="form-actions mt-3">
+            <a asp-action="Davalarim" class="btn btn-secondary">
+                <i class="fas fa-times"></i> İptal
+            </a>
+            <button type="submit" class="btn btn-primary">
+                <i class="fas fa-save"></i> Kaydet
+            </button>
+        </div>
+    </form>
+</div>

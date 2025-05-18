@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Profil";
+   
+
+    Layout = "_Layout2";
+}
+
+<div class="profile-page">
+    <div class="profile-info">
+        <div>
+            <div class="info-item">
+                <div class="info-label">Ad Soyad</div>
+                <div class="info-value">@ViewBag.Ad @ViewBag.Soyad</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">TC Kimlik No</div>
+                <div class="info-value">@ViewBag.TC</div>
+            </div>
+        </div>
+
+        <div>
+            <hr>
+            <div class="info-item">
+                <div class="info-label">Telefon</div>
+                <div class="info-value">@ViewBag.Telefon</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">E-posta</div>
+                <div class="info-value">@ViewBag.Eposta</div>
+            </div>
+        </div>
+    </div>
+</div>

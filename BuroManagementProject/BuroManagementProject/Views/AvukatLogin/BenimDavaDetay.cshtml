@@ -1,0 +1,85 @@
+﻿@model BuroManagementProject.Models.DavaDetayViewModel
+@{
+    ViewBag.Title = "Dava Detay";   
+       Layout = "_Layout2";
+    
+}
+
+<div class="case-detail-container">
+    <div class="case-info">
+        <div>
+            <div class="info-item">
+                <div class="info-label">Avukat</div>
+                <div class="info-value">
+                    @foreach (var avk in Model.AvukatAdlari)
+                    {
+                        <div>@avk</div>
+                    }
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Taraf</div>
+                <div class="info-value">@Model.DavaTaraf</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Dava Tarihi</div>
+                <div class="info-value">@Model.AcilisTarihi.ToString("dd.MM.yyyy")</div>
+            </div>
+        </div>
+        <div>
+            <div class="info-item">
+                <div class="info-label">Mahkeme</div>
+                <div class="info-value">@Model.MahkemeAdi</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Son Güncelleme</div>
+                <div class="info-value">@Model.GuncellemeTarihi.ToString("dd.MM.yyyy")</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="info-item">
+        <div class="info-label">Açıklama</div>
+        <div class="info-value">@Model.DavaAciklama</div>
+    </div>
+
+    <div class="payment-info">
+        <div class="payment-item">
+            <div class="payment-label">Toplam Ücret</div>
+            <div class="payment-value">@Model.ToplamUcret.ToString("N0") TL</div>
+        </div>
+        <div class="payment-item">
+            <div class="payment-label">Ödenen</div>
+            <div class="payment-value">@Model.OdenenUcret.ToString("N0") TL</div>
+        </div>
+        <div class="payment-item">
+            <div class="payment-label">Kalan</div>
+            <div class="payment-value">@Model.KalanUcret.ToString("N0") TL</div>
+        </div>
+    </div>
+
+    @{
+        var asamaEtiketleri = new List<string>
+{
+        "Dava Açma", "Cevap Dilekçesi", "Duruşma", "Deliller",
+        "Kesinleşme", "Karar", "Temyiz", "İnfaz", "Sonuç"
+    };
+    }
+    <div class="progress-steps">
+        @for (int i = 0; i < asamaEtiketleri.Count; i++)
+        {
+            int stepNo = i + 1;
+            string etiket = asamaEtiketleri[i];
+
+            string cssClass = stepNo < Model.Asama_ID ? "step completed"
+                            : stepNo == Model.Asama_ID ? "step active"
+                            : "step";
+
+            <div class="@cssClass" data-step="@stepNo">
+                <div class="step-number">@stepNo</div>
+                <div class="step-label">@etiket</div>
+            </div>
+        }
+    </div>
+
+</div>

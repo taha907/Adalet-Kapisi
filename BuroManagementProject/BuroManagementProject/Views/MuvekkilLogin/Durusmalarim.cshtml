@@ -1,0 +1,58 @@
+﻿@model BuroManagementProject.Models.DurusmalarViewModel
+@{
+    ViewBag.Title = "Duruşmalarım";
+    
+}
+
+<div class="container">
+    <main class="main-content">
+        <div id="hearings-content">
+            <div class="hearings-table">
+                <h2 class="section-title">Tüm Duruşmalar</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dava No</th>
+                            <th>Konu</th>
+                            <th>Tarih</th>
+                            <th>Saat</th>
+                            <th>Mahkeme</th>
+                            <th>Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var durusma in Model.Durusmalar)
+                        {
+                            <tr>
+                                <td>#@durusma.DavaID</td>
+                                <td>@durusma.DavaKonusu</td>
+                                <td>@durusma.Tarih</td>
+                                <td>@durusma.Saat</td>
+                                <td>@durusma.MahkemeAdi</td>
+                                <td>
+                                    @if (durusma.DurusmaDurumu == "Planlandı")
+                                    {
+                                        <span class="status status-pending">Planlandı</span>
+                                    }
+                                    else if (durusma.DurusmaDurumu == "Gerçekleşti")
+                                    {
+                                <span class="status status-active">Gerçekleşti</span>
+                                    }
+                                    else if (durusma.DurusmaDurumu == "Ertelendi")
+                                    {
+                                        <span class="status status-closed">Ertelendi</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status">@durusma.DurusmaDurumu</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+

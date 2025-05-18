@@ -1,0 +1,71 @@
+﻿
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Hukuk Portalı</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- CSS dosyaların -->
+    <link rel="stylesheet" href="/css/Muvekkil/Muvekkil_Avukatlarim.css">
+    <link rel="stylesheet" href="/css/Muvekkil/Muvekkil_DashBoard.css">
+    <link rel="stylesheet" href="/css/Muvekkil/Muvekkil_Davalarim.css">
+    <link rel="stylesheet" href="/css/Muvekkil/Muvekkil_Durusmalarim.css">
+    <link rel="stylesheet" href="/css/Muvekkil/Muvekkil_Hakkimda.css">
+    <link rel="stylesheet" href="/css/Muvekkil/Muvekkil_Profil.css">
+    <link rel="stylesheet" href="/css/Muvekkil/Ortak_DavaDetay1.css">
+    <link rel="stylesheet" href="/css/AvukatDavalarim.css">
+    <link rel="stylesheet" href="/css/Avukat_DavaEkle1.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>Hukuk Bürosu</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/AvukatLogin/Index" class="@(ViewBag.ActiveIndex ?? "")"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="/AvukatLogin/Profil" class="@(ViewBag.ActiveProfil ?? "")"><i class="fas fa-user"></i> Profil</a></li>
+                <li><a href="/AvukatLogin/Muvekkillerim" class="@(ViewBag.ActiveMuvekkillerim ?? "")"><i class="fas fa-user-tie"></i> Müvekkillerim</a></li>
+                <li><a href="/AvukatLogin/Davalarim" class="@(ViewBag.ActiveDavalarim ?? "")"><i class="fas fa-gavel"></i> Davalarım</a></li>
+                <li><a href="/AvukatLogin/BenimDavalarim" class="@(ViewBag.ActiveBenimDavalarim ?? "")"><i class="fas fa-briefcase"></i> Benim Davalarım</a></li>
+                <li><a href="/AvukatLogin/Durusmalarim" class="@(ViewBag.ActiveDurusmalarim ?? "")"><i class="fas fa-balance-scale"></i> Duruşmalarım</a></li>
+                <li><a href="/AvukatLogin/Hakkimizda" class="@(ViewBag.ActiveHakkimizda ?? "")"><i class="fas fa-info-circle"></i> Hakkında</a></li>
+                <li><a href="/AvukatLogin/Cikis"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a></li>
+            </ul>
+        </aside>
+
+        <!-- Ana içerik -->
+        <div class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="page-title">
+                    @if (!string.IsNullOrEmpty(ViewBag.Title))
+                    {
+                        <h1>@ViewBag.Title</h1>
+                    }
+                    else
+                    {
+                        <h1>Hoşgeldiniz, @ViewBag.Ad @ViewBag.Soyad</h1>
+                    }
+                </div>
+
+
+                <div class="user-info">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profil Resmi">
+                    <span>Hoşgeldin, @ViewBag.Ad @ViewBag.Soyad</span>
+                </div>
+            </header>
+
+            <!-- Sayfa içeriği -->
+            @RenderBody()
+        </div>
+    </div>
+
+
+
+   
+</body>
+</html>

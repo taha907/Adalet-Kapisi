@@ -1,0 +1,34 @@
+﻿@model AvukatViewModel
+
+
+@{
+    ViewBag.Title = "Avukatlarım";
+    ViewBag.ActiveAvukatlarim = "active";
+   
+}
+
+<div id="lawyers-content">
+    <div class="lawyers-page">
+        <h2 class="section-title">Avukat Listesi</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Avukat</th>
+                    <th>Telefon</th>
+                    <th>Adres</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var avukat in Model.Avukatlar)
+                {
+                    <tr>
+                        <td>@avukat.Kisiler.Ad @avukat.Kisiler.Soyad</td>
+                        <td>@avukat.Kisiler.Telefon</td>
+                        <td>@avukat.Adres.Il, @avukat.Adres.Ilce, @avukat.Adres.Adres</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

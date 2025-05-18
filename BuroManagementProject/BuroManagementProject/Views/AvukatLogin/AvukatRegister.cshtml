@@ -1,0 +1,74 @@
+﻿@model BuroManagementProject.Models.Kisiler
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/avukatKayit.css" asp-append-version="true" />
+    <title>Hukuk B�rosu - Giri�</title>
+</head>
+<body>
+    <div>
+        <div class="login-box">
+            <div class="login-title">
+                <h2>Avukat Kay�t Formu</h2>
+            </div>
+            <form id="lawyer-register-form" method="post">
+                <div class="form-group">
+                    <label for="lawyer-name">Ad</label>
+                    <input type="text" name="Ad" placeholder="Ad�n�z� giriniz" required>
+                </div>
+                <div class="form-group">
+                    <label for="lawyer-surname">Soyad</label>
+                    <input type="text" name="Soyad" placeholder="Soyad�n�z� giriniz" required>
+                </div>
+                <div class="form-group">
+                    <label for="lawyer-phone">Telefon Numaras�</label>
+                    <input type="tel" name="Telefon" placeholder="Telefon numaran�z� giriniz" required>
+                </div>
+                <div class="form-group">
+                    <label for="lawyer-tc">TC Kimlik No</label>
+                    <input type="text" name="TC" placeholder="TC kimlik numaran�z� giriniz" required>
+                </div>
+                <div class="form-group">
+                    <label for="lawyer-email">E-posta</label>
+                    <input type="email" name="Eposta" placeholder="E-posta adresinizi giriniz" required>
+                </div>
+                <div class="form-group">
+                    <label for="lawyer-password">�ifre</label>
+                    <input type="password" name="Sifre" placeholder="�ifrenizi giriniz" required>
+                </div>
+                <div class="form-group">
+                    <label for="lawyer-bar-no">Baro Numaras�</label>
+                    <input type="text" name="BaroNo" placeholder="Baro numaran�z� giriniz" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="lawyer-city">İl</label>
+                        <input type="text" name="Il" placeholder="�linizi giriniz">
+                    </div>
+                    <div class="form-group">
+                        <label for="lawyer-district">İlçe</label>
+                        <input type="text" name="Ilce" placeholder="�l�enizi giriniz">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lawyer-address">Adres</label>
+                    <textarea name="Adres" placeholder="Adresinizi giriniz"></textarea>
+                </div>
+                @if (ViewBag.KayitHatasi != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.KayitHatasi</div>
+                }
+                <button type="submit" class="login-btn">Kay�t Ol</button>
+                <a href="/Login/Login" class="login-btn" style="background-color: #e74c3c; margin-top: 10px; display: block; text-align: center; text-decoration: none; color: white; padding: 10px; border-radius: 5px;">
+                    İptal
+                </a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

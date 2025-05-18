@@ -1,0 +1,58 @@
+﻿@model BuroManagementProject.Models.Kisiler
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/Muvekkil/Muvekkil_Kayit.css" asp-append-version="true" />
+    <title>Müvekkil Kayit</title>
+</head>
+<body>
+    <div>
+        <div class="login-box">
+            <div class="login-title">
+                <h2>M�vekkil Kay�t Formu</h2>
+            </div>
+            <form method="post">
+                <!-- Buradaki name, formun action'a g�derdi�i parametredir -->
+                <div class="form-group">
+                    <label for="client-name">Ad</label>
+                    <input type="text" name="Ad" placeholder="Ad�n�z� giriniz" value="@Model?.Ad" required>
+                </div>
+                <div class="form-group">
+                    <label for="client-surname">Soyad</label>
+                    <input type="text" name="Soyad" placeholder="Soyad�n�z� giriniz" value="@Model?.Soyad"required>
+                </div>
+                <div class="form-group">
+                    <label for="client-phone">Telefon Numaras�</label>
+                    <input type="tel" name="Telefon" placeholder="Telefon numaran�z� giriniz" value="@Model?.Telefon"required>
+                </div>
+                <div class="form-group">
+                    <label for="client-tc">TC Kimlik No</label>
+                    <input type="text" name="TC" placeholder="TC kimlik numaran�z� giriniz"@Model?.Tc required>
+                </div>
+                <div class="form-group">
+                    <label for="client-email">E-posta</label>
+                    <input type="email" name="Eposta" placeholder="E-posta adresinizi giriniz" @Model?.Eposta required>
+                </div>
+                <div class="form-group">
+                    <label for="client-password">�ifre</label>
+                    <input type="password" name="Sifre" placeholder="�ifrenizi giriniz" @Model?.Sifre required>
+                </div>
+                @if (ViewBag.KayitHatasi != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.KayitHatasi</div>
+                }
+
+                <button type="submit" class="login-btn">Kay�t Ol</button>
+                <a href="/Login/Login" class="login-btn" style="background-color: #e74c3c; margin-top: 10px; display: block; text-align: center; text-decoration: none; color: white; padding: 10px; border-radius: 5px;">
+                    �ptal
+                </a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

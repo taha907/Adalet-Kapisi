@@ -1,0 +1,57 @@
+﻿@model BuroManagementProject.Models.DavalarViewModel
+@{
+    ViewBag.Title = "Davalarım";
+    ViewBag.ActiveDavalarim = "active";
+   
+}
+
+<div class="container">
+    <main class="main-content">
+        <div id="cases-content">
+            <div class="cases-table">
+                <h2 class="section-title">Davalar Listesi</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dava No</th>
+                            <th>Konu</th>
+                            <th>Avukat</th>
+                            <th>Başlangıç Tarihi</th>
+                            <th>Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var dava in Model.Davalar)
+                        {
+                            <tr onclick="location.href='@Url.Action("DavaDetayGoster", "MuvekkilLogin", new { id = dava.DavaID })'" style="cursor:pointer;">
+                                <td>#@dava.DavaID</td>
+                                <td>@dava.Dava_Konusu</td>
+                                <td>@dava.AvukatAdi</td>
+                                <td>@dava.Acilis_Tarihi</td>
+                                <td>
+                                    @if (dava.DavaDurumu == "Aktif")
+                                    {
+                                        <span class="status status-active">Aktif</span>
+                                    }
+                                    else if (dava.DavaDurumu == "Beklemede")
+                                    {
+                                        <span class="status status-pending">Beklemede</span>
+                                    }
+                                    else if (dava.DavaDurumu == "Sonuçlandı")
+                                    {
+                                        <span class="status status-closed">Sonuçlandı</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status status-unknown">Bilinmiyor</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </main>
+</div>

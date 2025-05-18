@@ -1,0 +1,47 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <title>Hukuk B�rosu - Giri�</title>
+</head>
+<body>
+
+    <!-- Login Page -->
+    <div class="login-container" id="login-page">
+        <div class="login-box">
+            <div class="login-title">
+                <h2>Hukuk B�rosu</h2>
+                <p>Hesab�n�za eri�mek i�in giri� yap�n</p>
+            </div>
+            <form id="login-form" method="post" asp-controller="Login" asp-action="Login">
+                <div class="form-group">
+                    <label for="email">E-posta</label>
+                    <input type="email" id="email" name="email" placeholder="E-posta adresinizi giriniz" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">�ifre</label>
+                    <input type="password" id="password" name="password" placeholder="�ifrenizi giriniz" required>
+                </div>
+                @if (ViewBag.Hata != null)
+                {
+                    <div class="alert alert-danger">@ViewBag.Hata</div>
+                }
+                <button type="submit" class="login-btn" id="login-btn">Giri� Yap</button>
+            </form>
+
+            <a href="/AvukatLogin/AvukatRegister" class="login-btn" style="margin-top: 10px; background-color: #3498db; display: block; text-align: center; text-decoration: none; color: white; padding: 10px; border-radius: 5px;">
+                Avukat Olarak Hesap Oluştur
+            </a>
+
+            <a href="/MuvekkilLogin/MuvekkilRegister" class="login-btn" style="margin-top: 10px; background-color: #2ecc71; display: block; text-align: center; text-decoration: none; color: white; padding: 10px; border-radius: 5px;">
+                Müvekkil Olarak Hesap Oluştur
+            </a>
+        </div>
+    </div>
+</body>
+</html>

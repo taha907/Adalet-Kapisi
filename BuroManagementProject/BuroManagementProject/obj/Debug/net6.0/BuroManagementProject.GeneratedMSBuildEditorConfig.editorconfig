@@ -1,0 +1,117 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = BuroManagementProject
+build_property.RootNamespace = BuroManagementProject
+build_property.ProjectDir = C:\Users\Arnolfini\source\repos\BuroManagementProject\BuroManagementProject\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Arnolfini\source\repos\BuroManagementProject\BuroManagementProject
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 6.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/AvukatLogin/AvukatRegister.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZ1a2F0TG9naW5cQXZ1a2F0UmVnaXN0ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/AvukatLogin/BenimDavaDetay.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZ1a2F0TG9naW5cQmVuaW1EYXZhRGV0YXkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/AvukatLogin/BenimDavalarim.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZ1a2F0TG9naW5cQmVuaW1EYXZhbGFyaW0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/AvukatLogin/DavaDetay.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZ1a2F0TG9naW5cRGF2YURldGF5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/AvukatLogin/DavaEkle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZ1a2F0TG9naW5cRGF2YUVrbGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/AvukatLogin/Davalarim.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZ1a2F0TG9naW5cRGF2YWxhcmltLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/AvukatLogin/Durusmalarim.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZ1a2F0TG9naW5cRHVydXNtYWxhcmltLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/AvukatLogin/Hakkimizda.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZ1a2F0TG9naW5cSGFra2ltaXpkYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/AvukatLogin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZ1a2F0TG9naW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/AvukatLogin/Muvekkillerim.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZ1a2F0TG9naW5cTXV2ZWtraWxsZXJpbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/AvukatLogin/Profil.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXZ1a2F0TG9naW5cUHJvZmlsLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/Login/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cTG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/MuvekkilLogin/Avukatlarim.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTXV2ZWtraWxMb2dpblxBdnVrYXRsYXJpbS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/MuvekkilLogin/DavaDetay.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTXV2ZWtraWxMb2dpblxEYXZhRGV0YXkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/MuvekkilLogin/Davalarim.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTXV2ZWtraWxMb2dpblxEYXZhbGFyaW0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/MuvekkilLogin/Durusmalarim.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTXV2ZWtraWxMb2dpblxEdXJ1c21hbGFyaW0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/MuvekkilLogin/Hakkimizda.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTXV2ZWtraWxMb2dpblxIYWtraW1pemRhLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/MuvekkilLogin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTXV2ZWtraWxMb2dpblxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/MuvekkilLogin/MuvekkilRegister.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTXV2ZWtraWxMb2dpblxNdXZla2tpbFJlZ2lzdGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/MuvekkilLogin/Profil.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTXV2ZWtraWxMb2dpblxQcm9maWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/Shared/_Layout2.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Arnolfini/source/repos/BuroManagementProject/BuroManagementProject/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-xndnr8zaiw
