@@ -1,0 +1,499 @@
+-- MySQL uyumlu veritabanı oluşturma script'i
+-- MySQL Workbench'te ER diyagram oluşturmak için kullanılabilir
+
+-- Veritabanı oluşturma
+DROP DATABASE IF EXISTS adalet_kapisi;
+CREATE DATABASE IF NOT EXISTS adalet_kapisi;
+USE adalet_kapisi;
+
+-- Tablolar
+
+-- Rol tablosu
+CREATE TABLE rol (
+    Rol_ID INT PRIMARY KEY,
+    Rol VARCHAR(50) NOT NULL
+);
+
+
+-- Avukat adres bilgileri
+CREATE TABLE adres_avukat (
+    Adres_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Il VARCHAR(50),
+    Ilce VARCHAR(50),
+    Adres VARCHAR(100)
+);
+
+-- Kişiler tablosu (Avukat ve Müvekkiller için ortak)
+CREATE TABLE kisiler (
+    Kisi_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Ad VARCHAR(50) NOT NULL,
+    Soyad VARCHAR(50) NOT NULL,
+    Telefon VARCHAR(20) UNIQUE KEY NOT NULL,
+    TC_Kimlik_No VARCHAR(11) UNIQUE KEY NOT NULL ,
+    E_posta VARCHAR(125) UNIQUE KEY NOT NULL,
+    Sifre VARCHAR(15) NOT NULL,
+	Baro_No VARCHAR(20) NOT NULL,
+    Adres_ID INT,
+	FOREIGN KEY (Adres_ID) REFERENCES adres_avukat(Adres_ID)
+);
+
+-- Kişi-Rol ilişki tablosu (Çoktan çoğa ilişki için)
+CREATE TABLE kisi_rol (
+    Kisi_ID INT,
+    Rol_ID INT,
+    CONSTRAINT PK_KisiRol PRIMARY KEY (Kisi_ID, Rol_ID),
+    FOREIGN KEY (Kisi_ID) REFERENCES kisiler(Kisi_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Rol_ID) REFERENCES rol(Rol_ID)
+);
+
+-- Mahkemeler tablosu
+CREATE TABLE mahkemeler (
+    Mahkeme_ID INT PRIMARY KEY,
+    Ad VARCHAR(100) NOT NULL,
+    Sehir VARCHAR(50)
+);
+
+-- Dava durumları
+CREATE TABLE dava_durum (
+    DavaDurum_ID INT PRIMARY KEY,
+    Dava_Turu VARCHAR(100)
+);
+
+-- Dava tarafları
+CREATE TABLE taraf (
+    Taraf_ID INT PRIMARY KEY,
+    Taraf VARCHAR(50)
+);
+
+-- Dava aşamaları
+CREATE TABLE asama (
+    Asama_ID INT PRIMARY KEY,
+    Asama VARCHAR(50)
+);
+
+-- Duruşma durumları
+CREATE TABLE durusma_durum (
+    DurusmaDurum_ID INT PRIMARY KEY,
+    Durusma_Turu VARCHAR(50)
+);
+
+-- Ödeme tablosu
+CREATE TABLE odeme (
+    Odeme_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Toplam_Miktar DECIMAL(10,2) NOT NULL,
+    Odenen_Miktar DECIMAL(10,2) NOT NULL,
+    Kalan_Miktar DECIMAL(10,2)
+);
+
+-- Davalar tablosu
+CREATE TABLE dava (
+    Dava_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Dava_Konusu VARCHAR(100) NOT NULL,
+    Acilis_Tarihi DATE,
+    Guncelleme_Tarihi DATE,
+    Aciklama TEXT,
+    DavaDurum_ID INT,
+    Mahkeme_ID INT,
+    Asama_ID INT,
+    Taraf_ID INT,
+    Odeme_ID INT,
+    FOREIGN KEY (DavaDurum_ID) REFERENCES dava_durum(DavaDurum_ID),
+    FOREIGN KEY (Mahkeme_ID) REFERENCES mahkemeler(Mahkeme_ID),
+    FOREIGN KEY (Asama_ID) REFERENCES asama(Asama_ID),
+    FOREIGN KEY (Taraf_ID) REFERENCES taraf(Taraf_ID),
+    FOREIGN KEY (Odeme_ID) REFERENCES odeme(Odeme_ID)
+);
+
+-- DavaTaraf ilişki tablosu (Dava katılanları)
+CREATE TABLE dava_taraf (
+    Dava_ID INT,
+    Kisi_ID INT,
+    Rol_ID INT , -- Avukat/Müvekkil
+    CONSTRAINT PK_DavaTaraf PRIMARY KEY (Dava_ID, Kisi_ID),
+    FOREIGN KEY (Dava_ID) REFERENCES dava(Dava_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Kisi_ID) REFERENCES kisiler(Kisi_ID) ON DELETE CASCADE
+);
+
+-- Duruşmalar Tablosu
+CREATE TABLE durusmalar (
+    Durusma_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Tarih DATE,
+    Saat TIME,
+    Dava_ID INT,
+    Mahkeme_ID INT,
+    DurusmaDurum_ID INT,
+    FOREIGN KEY (Dava_ID) REFERENCES dava(Dava_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Mahkeme_ID) REFERENCES mahkemeler(Mahkeme_ID),
+    FOREIGN KEY (DurusmaDurum_ID) REFERENCES durusma_durum(DurusmaDurum_ID)
+);
+
+-- Dava tarihçesi tablosu
+CREATE TABLE dava_tarihce (
+    Tarihce_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Dava_ID INT,
+    Asama VARCHAR(50),
+    Guncelleme_Tarihi DATETIME,
+    Guncelleyen_ID INT,
+    FOREIGN KEY (Dava_ID) REFERENCES dava(Dava_ID) ON DELETE CASCADE,
+    FOREIGN KEY (Guncelleyen_ID) REFERENCES kisiler(Kisi_ID)
+);
+
+
+-- ------------------------------------------------
+-- İLİŞKİLER AÇIKLAMALARI
+-- ------------------------------------------------
+-- 1. Bir kişinin rolleri olabilir (kisiler - rol : N:M ilişki - kisi_rol tablosu üzerinden)
+--    Bir kişi hem avukat hem müvekkil olabilir, roller üzerinden ilişki kurulur
+--
+-- 2. Avukat için özel bilgiler (kisiler - avukat_detay : 1:1 ilişki)
+--    avukat_detay tablosundaki Kisi_ID, kisiler tablosundaki Kisi_ID'ye bağlıdır (ON DELETE CASCADE)
+--
+-- 3. Avukat adresleri (kisiler - adres_avukat : 1:N ilişki)
+--    Bir avukatın birden fazla adresi olabilir, adres_avukat tablosundaki Kisi_ID kisiler'e bağlıdır
+--
+-- 4. Davalar ve Aşamalar (dava - asama : N:1 ilişki)
+--    Bir aşamada birden fazla dava olabilir. Örneğin: "Hazırlık" aşamasında olan tüm davalar
+--
+-- 5. Avukat-Müvekkil ilişkisi (dava_taraf tablosu üzerinden sağlanıyor)
+--    Davalar ile avukat ve müvekkiller arasındaki ilişki dava_taraf tablosu üzerinden 
+--    Dava_Rol alanı ile yönetiliyor.
+-- ------------------------------------------------
+
+-- Örnek veri girişleri
+
+-- Roller
+INSERT INTO rol (Rol_ID, Rol) VALUES 
+(1, 'Avukat'),
+(2, 'Müvekkil'),
+(3, 'Admin');
+
+-- Duruşma durumları
+INSERT INTO durusma_durum (DurusmaDurum_ID, Durusma_Turu) VALUES 
+(1, 'Bekliyor'),
+(2, 'Devam Ediyor'),
+(3, 'Tamamlandı');
+
+-- Mahkemeler
+INSERT INTO mahkemeler (Mahkeme_ID, Ad, Sehir) VALUES 
+(1, 'İstanbul 1. Asliye', 'İstanbul'),
+(2, 'Ankara 2. Asliye', 'Ankara'),
+(3, 'İzmir 3. Sulh Hukuk', 'İzmir'),
+(4,'İstanbul 1. Asliye Hukuk Mahkemesi', 'İstanbul'),
+(5, 'İstanbul 2. Asliye Ceza Mahkemesi', 'İstanbul'),
+(6, 'İstanbul 3. Aile Mahkemesi', 'İstanbul'),
+(7, 'İstanbul 4. Ağır Ceza Mahkemesi', 'İstanbul'),
+(8, 'İstanbul 5. İş Mahkemesi', 'İstanbul'),
+(9, 'İstanbul 6. Tüketici Mahkemesi', 'İstanbul'),
+(10,'İstanbul 7. Sulh Ceza Hakimliği', 'İstanbul'),
+(11, 'İstanbul 8. Asliye Ticaret Mahkemesi', 'İstanbul'),
+(12, 'İstanbul 9. İcra Hukuk Mahkemesi', 'İstanbul'),
+(13, 'İstanbul 10. İcra Ceza Mahkemesi', 'İstanbul'),
+(14, 'İzmir 1. Asliye Hukuk Mahkemesi', 'İzmir'),
+(15, 'İzmir 2. Ağır Ceza Mahkemesi', 'İzmir'),
+(16, 'İzmir 3. Aile Mahkemesi', 'İzmir'),
+(17, 'İzmir 4. İş Mahkemesi', 'İzmir'),
+(18, 'İzmir 5. Sulh Ceza Hakimliği', 'İzmir'),
+(19, 'Ankara 1. Asliye Ticaret Mahkemesi', 'Ankara'),
+(20, 'Ankara 2. Aile Mahkemesi', 'Ankara'),
+(21, 'Ankara 3. Tüketici Mahkemesi', 'Ankara'),
+(22, 'Ankara 4. Ağır Ceza Mahkemesi', 'Ankara'),
+(23, 'Ankara 5. İcra Hukuk Mahkemesi', 'Ankara'),
+(24, 'Kocaeli 1. Asliye Ceza Mahkemesi', 'Kocaeli'),
+(25, 'Kocaeli 2. Aile Mahkemesi', 'Kocaeli'),
+(26, 'Kocaeli 3. Sulh Hukuk Mahkemesi', 'Kocaeli'),
+(27, 'Kocaeli 4. İş Mahkemesi', 'Kocaeli'),
+(28, 'Kocaeli 5. Ağır Ceza Mahkemesi', 'Kocaeli');
+
+
+-- Taraflar
+INSERT INTO taraf (Taraf_ID, Taraf) VALUES (1 , 'Davalı');
+INSERT INTO taraf (Taraf_ID, Taraf) VALUES (2 , 'Davacı');
+INSERT INTO taraf (Taraf_ID, Taraf) VALUES (3 , 'Tek Taraf');
+
+-- Aşamalar
+INSERT INTO asama (Asama_ID, Asama) VALUES
+(1, '1. Dava Açma '),
+(2, '2. Cevap Dilekçesi '),
+(3, '3. Duruşma '),
+(4, '4. Deliller '),
+(5, '5. Kesinleşme '),
+(6, '6. Karar '),
+(7, '7. Temyiz '),
+(8, '8. İnfaz '),
+(9, '9. Sonuç ');
+
+-- ------------------------------------------------
+-- Wievlar
+-- ------------------------------------------------
+
+-- Muvekkil Wiev
+CREATE VIEW muvekkil_view AS
+SELECT 
+    dt.Dava_ID,
+    k.Kisi_ID,
+    k.E_posta      AS MuvekkilEmail,
+    k.Ad           AS MuvekkilAd,
+    k.Soyad        AS MuvekkilSoyad
+FROM dava_taraf dt
+JOIN kisiler k ON dt.Kisi_ID = k.Kisi_ID
+WHERE dt.Rol_ID = 2;  -- 2 = Müvekkil
+
+-- Avukatlar Wiev
+
+CREATE VIEW avukatlar AS
+SELECT
+  dt.Dava_ID,
+  dt.Kisi_ID      AS Avukat_ID,
+  CONCAT(k.Ad, ' ', k.Soyad) AS AvukatAd
+FROM dava_taraf dt
+JOIN kisiler k
+  ON dt.Kisi_ID = k.Kisi_ID
+WHERE dt.Rol_ID = 1;  -- 1 = Avukat
+  
+  
+-- 1. Müvekkil kendi avukatlarını görüntülemesi için bu viewi kullanacak
+CREATE OR REPLACE VIEW MuvekkilinAvukatlari AS
+SELECT DISTINCT
+    dt_muvekkil.Kisi_ID AS Muvekkil_ID,
+    CONCAT(avukat.Ad, ' ', avukat.Soyad) AS Avukat_AdSoyad,
+    avukat.Telefon,
+    CONCAT(adres.Il, ', ', adres.Ilce, ', ', adres.Adres) AS Avukat_Adres
+FROM
+    dava_taraf dt_muvekkil
+JOIN dava d ON dt_muvekkil.Dava_ID = d.Dava_ID
+JOIN dava_taraf dt_avukat ON d.Dava_ID = dt_avukat.Dava_ID
+JOIN kisiler avukat ON dt_avukat.Kisi_ID = avukat.Kisi_ID
+JOIN rol r_avukat ON dt_avukat.Rol_ID = r_avukat.Rol_ID AND r_avukat.Rol = 'Avukat'
+LEFT JOIN adres_avukat adres ON avukat.Adres_ID = adres.Adres_ID
+WHERE
+    dt_muvekkil.Rol_ID != r_avukat.Rol_ID;
+    
+    -- 2. Avukat kendi müvekkillerini görüntülemesi için bu viewi kullanacak
+CREATE OR REPLACE VIEW AvukatinMuvekkilleri AS
+SELECT 
+    dt_avukat.Kisi_ID AS Avukat_ID,
+    CONCAT(muvekkil.Ad, ' ', muvekkil.Soyad) AS Muvekkil_AdSoyad,
+    muvekkil.Telefon,
+    muvekkil.E_posta,
+    COUNT(*) AS Aktif_Dava_Sayisi
+FROM 
+    dava_taraf dt_avukat
+JOIN 
+    dava d ON dt_avukat.Dava_ID = d.Dava_ID
+JOIN 
+    dava_taraf dt_muvekkil ON d.Dava_ID = dt_muvekkil.Dava_ID
+JOIN 
+    kisiler muvekkil ON dt_muvekkil.Kisi_ID = muvekkil.Kisi_ID
+JOIN 
+    rol r_muvekkil ON dt_muvekkil.Rol_ID = r_muvekkil.Rol_ID
+JOIN 
+    rol r_avukat ON dt_avukat.Rol_ID = r_avukat.Rol_ID
+WHERE 
+    r_avukat.Rol = 'Avukat'
+    AND r_muvekkil.Rol != 'Avukat'
+    AND dt_avukat.Kisi_ID != dt_muvekkil.Kisi_ID
+GROUP BY 
+    dt_avukat.Kisi_ID, muvekkil.Kisi_ID;
+    
+    
+    -- 3. Avukat avukat olarak rol aldığı davaları görüntülemek için bunu kullanacak yani avukat panelinde davalarım kısmı ++
+CREATE OR REPLACE VIEW AvukatinDavalarim AS
+SELECT 
+    d.Dava_ID,
+    d.Dava_Konusu,
+    GROUP_CONCAT(DISTINCT CONCAT(muvekkil.Ad, ' ', muvekkil.Soyad) SEPARATOR ', ') AS Muvekkil_AdSoyad,
+    d.Acilis_Tarihi,
+    dd.Dava_Turu AS Dava_Durumu,
+    GROUP_CONCAT(DISTINCT dt_avukat.Kisi_ID SEPARATOR ', ') AS Avukat_ID
+FROM 
+    dava d
+JOIN 
+    dava_durum dd ON d.DavaDurum_ID = dd.DavaDurum_ID
+JOIN 
+    dava_taraf dt_avukat ON d.Dava_ID = dt_avukat.Dava_ID
+JOIN 
+    rol r_avukat ON dt_avukat.Rol_ID = r_avukat.Rol_ID AND r_avukat.Rol = 'Avukat'
+JOIN 
+    dava_taraf dt_muvekkil ON d.Dava_ID = dt_muvekkil.Dava_ID
+JOIN 
+    rol r_muvekkil ON dt_muvekkil.Rol_ID = r_muvekkil.Rol_ID AND r_muvekkil.Rol = 'Müvekkil'
+JOIN 
+    kisiler muvekkil ON dt_muvekkil.Kisi_ID = muvekkil.Kisi_ID
+GROUP BY 
+    d.Dava_ID, d.Dava_Konusu, d.Acilis_Tarihi, dd.Dava_Turu;
+    
+    
+    -- 4. Muvekkilin muvekkil olarak rol aldığı davaların detayını görüntülemek için bunu kullanacak ++
+CREATE OR REPLACE VIEW MuvekkilDavaDetay AS
+SELECT
+    d.Dava_ID,
+    d.Dava_Konusu,
+    GROUP_CONCAT(DISTINCT CONCAT(avk.Ad, ' ', avk.Soyad) SEPARATOR ', ') AS Avukat_AdSoyad,
+    GROUP_CONCAT(DISTINCT muv.Kisi_ID SEPARATOR ', ') AS Muvekkil_ID,
+    m.Ad AS Mahkeme_Adi,
+    t.Taraf AS Dava_Taraf,
+    d.Acilis_Tarihi,
+    d.Guncelleme_Tarihi,
+    d.Aciklama AS Dava_Aciklama,
+    o.Toplam_Miktar,
+    o.Odenen_Miktar,
+    o.Kalan_Miktar,
+    d.Asama_ID,
+    dd.Dava_Turu AS Dava_Durumu
+FROM
+    dava d
+    -- Avukat bilgisi
+    JOIN dava_taraf dt_avk ON d.Dava_ID = dt_avk.Dava_ID
+    JOIN rol r_avk ON dt_avk.Rol_ID = r_avk.Rol_ID AND r_avk.Rol = 'Avukat'
+    JOIN kisiler avk ON dt_avk.Kisi_ID = avk.Kisi_ID
+    -- Müvekkil bilgisi
+    JOIN dava_taraf dt_muv ON d.Dava_ID = dt_muv.Dava_ID
+    JOIN rol r_muv ON dt_muv.Rol_ID = r_muv.Rol_ID AND r_muv.Rol = 'Müvekkil'
+    JOIN kisiler muv ON dt_muv.Kisi_ID = muv.Kisi_ID
+    -- Diğer tablolar
+    JOIN mahkemeler m ON d.Mahkeme_ID = m.Mahkeme_ID
+    JOIN taraf t ON d.Taraf_ID = t.Taraf_ID
+    JOIN dava_durum dd ON d.DavaDurum_ID = dd.DavaDurum_ID
+    LEFT JOIN odeme o ON d.Odeme_ID = o.Odeme_ID
+GROUP BY
+    d.Dava_ID, d.Dava_Konusu, m.Ad, t.Taraf, d.Acilis_Tarihi,
+    d.Guncelleme_Tarihi, d.Aciklama, o.Toplam_Miktar,
+    o.Odenen_Miktar, o.Kalan_Miktar, d.Asama_ID, dd.Dava_Turu;
+    
+
+
+
+-- 5. Avukat duruşmalarını listeler bu view ile 
+CREATE OR REPLACE VIEW AvukatDurusmaBilgileri AS
+SELECT
+    d.Dava_ID,
+    d.Dava_Konusu,
+    dur.Tarih AS Durusma_Tarihi,
+    dur.Saat AS Durusma_Saati,
+    m.Ad AS Mahkeme_Adi,
+    ddur.Durusma_Turu AS Durusma_Durumu,
+    k.Kisi_ID AS Katilimci_ID
+FROM
+    durusmalar dur
+    JOIN dava d ON dur.Dava_ID = d.Dava_ID
+    JOIN mahkemeler m ON dur.Mahkeme_ID = m.Mahkeme_ID
+    JOIN durusma_durum ddur ON dur.DurusmaDurum_ID = ddur.DurusmaDurum_ID
+
+    -- Bu davaya katılan kişileri bağlamak için
+    JOIN dava_taraf dt ON d.Dava_ID = dt.Dava_ID
+    JOIN kisiler k ON dt.Kisi_ID = k.Kisi_ID
+    JOIN kisi_rol kr ON k.Kisi_ID = kr.Kisi_ID
+WHERE
+    dt.Rol_ID IN (1, 2); -- Avukat veya Müvekkil
+    
+    
+    -- 6. Müvekkilin Duruşma Bilgilerinin yer aldığı view tablosu ++
+CREATE OR REPLACE VIEW MuvekkilDurusmaBilgileri AS
+SELECT
+    d.Dava_ID,
+    d.Dava_Konusu,
+    dt.Kisi_ID,
+    dur.Tarih AS Durusma_Tarihi,
+    dur.Saat AS Durusma_Saati,
+    m.Ad AS Mahkeme_Adi,
+    dd.Durusma_Turu AS Durusma_Durumu
+FROM
+    dava d
+JOIN dava_taraf dt ON d.Dava_ID = dt.Dava_ID
+JOIN kisi_rol kr ON dt.Kisi_ID = kr.Kisi_ID AND kr.Rol_ID = 2  -- Müvekkil
+JOIN durusmalar dur ON d.Dava_ID = dur.Dava_ID
+JOIN mahkemeler m ON dur.Mahkeme_ID = m.Mahkeme_ID
+JOIN durusma_durum dd ON dur.DurusmaDurum_ID = dd.DurusmaDurum_ID;
+
+
+-- ------------------------------------------------
+-- Triggerlar
+-- ------------------------------------------------
+
+-- toplam miktar ve odenen miktar girildiginde kalan miktar hesaplanacak 
+DELIMITER //
+CREATE TRIGGER trg_odeme_kalan_hesapla
+BEFORE INSERT ON odeme
+FOR EACH ROW
+BEGIN
+    SET NEW.Kalan_Miktar = NEW.Toplam_Miktar - NEW.Odenen_Miktar;
+END//
+DELIMITER ;
+
+-- UPDATE için de aynı trigger
+DELIMITER //
+CREATE TRIGGER trg_odeme_kalan_guncelle
+BEFORE UPDATE ON odeme
+FOR EACH ROW
+BEGIN
+    SET NEW.Kalan_Miktar = NEW.Toplam_Miktar - NEW.Odenen_Miktar;
+END//
+DELIMITER ;
+
+-- davanin durumunu guncellemek icin trigger
+DELIMITER $$
+CREATE TRIGGER tg_dava_durum_guncelle_update
+BEFORE UPDATE ON dava
+FOR EACH ROW
+BEGIN
+    IF NEW.Asama_ID = 1 THEN
+        SET NEW.DavaDurum_ID = 1;
+    ELSEIF NEW.Asama_ID BETWEEN 2 AND 8 THEN
+        SET NEW.DavaDurum_ID = 2;
+    ELSEIF NEW.Asama_ID = 9 THEN
+        SET NEW.DavaDurum_ID = 3;
+    END IF;
+END$$
+
+DELIMITER ;
+
+-- dava tablosuna dava_id ve asama_id girildiginde asama_id'ye gore durum guncellemek icin trigger
+DELIMITER $$
+CREATE TRIGGER tg_dava_durum_guncelle_insert
+BEFORE INSERT ON dava
+FOR EACH ROW
+BEGIN
+    SET NEW.DavaDurum_ID = 1;
+END$$
+DELIMITER ;
+
+-- guncelleme islemi otomatik olarak guncelleme tarihi guncellemek icin trigger
+DELIMITER $$
+CREATE TRIGGER otomatik_guncelleme_tarihi
+BEFORE INSERT ON dava
+FOR EACH ROW
+BEGIN
+    SET NEW.Guncelleme_Tarihi = NOW();
+END$$
+
+
+
+-- ------------------------------------------------
+-- İndeksler
+-- ------------------------------------------------
+
+-- 1. Kişi aramaları için birleşik indeks
+-- TC kimlik, telefon ve e-posta ile aramalar çok sık yapılacağından
+CREATE INDEX kisiler_Arama ON kisiler(TC_Kimlik_No, Telefon, E_posta);
+
+-- 2. Avukat aramaları için birleşik indeks
+-- Baro numarası ile avukatları hızlı aramak için
+CREATE INDEX kisiler_Avukat ON kisiler(Baro_No, Ad, Soyad);
+
+-- 3. Dava filtreleme için birleşik indeks
+-- Dava durumu ve aşamasına göre arama yapmak için
+CREATE INDEX dava_Durum_Asama ON dava(DavaDurum_ID, Asama_ID);
+
+-- 4. Dava tarihleri için indeks
+-- Açılış ve güncelleme tarihine göre arama yapmak için 
+CREATE INDEX dava_Tarihler ON dava(Acilis_Tarihi, Guncelleme_Tarihi);
+
+-- 5. Mahkeme bazlı dava aramaları için indeks
+-- Belirli bir mahkemeye ait davaları listelemek için
+CREATE INDEX dava_Mahkeme ON dava(Mahkeme_ID);
+
+-- 6. Avukat-müvekkil ilişkisi sorgulama
+-- Belirli bir davada hangi avukat ve müvekkillerin olduğunu 
+-- hızlı sorgulamak için kompozit indeks
+CREATE INDEX dava_taraf_DavaRol ON dava_taraf(Dava_ID, Rol_ID);
+
